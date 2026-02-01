@@ -1,0 +1,4 @@
+age,gender,height,weight,bmi,bp,cholesterol,sugar,chronicDisease,sleepHours,alcohol,smoking,stressEating,dietaryHabits,sodiumSensitivity,sugarSensitivity,reco_breakfast,reco_lunch,reco_dinner
+50,female,160,45,21.3,140,180,118,Asthma,7,none,non-smoker,yes,balanced,no,yes,Oats porridge with berries (whole grain),Lentil soup with whole-grain bread (low sodium),Chicken khichdi with turmeric and spices (low sodium)
+65,male,165,49,21.4,140,189,118,Asthma,7,occasional,non-smoker,yes,balanced,no,yes,Oats porridge with berries (whole grain),Lentil soup with whole-grain bread (low sodium),Chicken khichdi with turmeric and spices (low sodium)
+78,male,170,68,24.6,140,180,120,Asthma,7,none,occasional,no,balanced,yes,yes,Scrambled eggs with spinach (low sodium),Turkey and vegetable wrap (whole-wheat),Vegetable stir-fry with brown rice
