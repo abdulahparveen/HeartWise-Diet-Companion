@@ -1,0 +1,174 @@
+body {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  background-image: url('back.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  overflow: scroll;
+}
+
+.background-overlay {
+  background-color: rgba(255, 255, 255, 0.6);
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index:1;
+}
+
+.header-container {
+  background-color: #004d40;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: 0 0 10px #000;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  height: calc(100vh - 150px);
+  box-sizing: border-box;
+}
+
+.left-container, .right-container {
+  flex: 1;
+  margin: 0 10px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #000;
+  color: #333;
+  overflow-y: auto;
+}
+
+h2 {
+  color: #004d40;
+  margin-bottom: 20px;
+}
+
+.form-block {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  background-color: #00796b;
+  color: #ffffff;
+  padding: 8px;
+  font-weight: bold;
+  border-radius: 4px 4px 0 0;
+}
+
+input, select {
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  background-color: #b2dfdb;
+  color: #000;
+  border: none;
+  border-radius: 0 0 4px 4px;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #00acc1;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+/* -------------------- MODAL STYLES -------------------- */
+
+/* The Modal (background overlay) */
+.modal {
+    /* Hidden by default */
+    display: none; 
+    /* Stay in place */
+    position: fixed; 
+    /* Full width and height */
+    z-index: 99999; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /* Black background with opacity */
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.7); 
+}
+
+/* Modal Content/Box */
+.modal-content {
+    /* Position the box in the middle of the screen */
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* ... [Existing Modal Content/Box and Close Button Styles above this] ... */
+
+/* Optional: Animation for the modal */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+/* Style for the recommendation items */
+.reco-item {
+    /* Ensures the div containing the recommendation has the right color context */
+    color: #333333; /* Dark gray for good contrast */
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #e0f2f1; /* Light green background for visibility */
+}
+
+.reco-item p {
+    /* Explicitly setting the text color for paragraphs */
+    color: #004d40; /* Darker green/teal color for the text */
+    margin-bottom: 5px; /* Reduced margin for tighter look */
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.modal-content h2 {
+    color: #1a5e5e; /* Matching your theme color */
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
