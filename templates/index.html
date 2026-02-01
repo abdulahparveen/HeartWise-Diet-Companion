@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HeartWise Input Form</title>
+  <!-- Tailwind CSS would normally be loaded here if we weren't using a separate style.css -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="background-overlay">
+    <div class="header-container">
+      <h1>HeartWise Input Features</h1>
+      <p>Comprehensive Health & Lifestyle Assessment</p>
+    </div>
+  <form id="userForm">
+    <div class="main-container">
+        <!-- LEFT CONTAINER: Physical Health -->
+        <div class="left-container">
+            <h2>Physical Health</h2>
+            
+          <div class="form-block"><label>Age</label><input type="number" name="age" required></div>
+          <div class="form-block"><label>Gender</label>
+            <select name="gender" required>
+              <option value="">Select</option><option value="male">Male</option>
+              <option value="female">Female</option><option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-block"><label>Height (cm)</label><input type="number" name="height" required></div>
+          <div class="form-block"><label>Weight (kg)</label><input type="number" name="weight" required></div>
+          <div class="form-block"><label>BMI</label><input type="number" name="bmi" step="0.1" required></div>
+          <div class="form-block"><label>Blood Pressure</label><input type="number" name="bp" required></div>
+          <div class="form-block"><label>Cholesterol Level</label><input type="number" name="cholesterol" required></div>
+          <div class="form-block"><label>Blood Sugar Level</label><input type="number" name="sugar" required></div>
+          <div class="form-block"><label>Chronic Disease</label>
+            <select name="chronicDisease" required>
+                <option value="">Select</option>
+              <option value="Hypertension">Hypertension</option>
+              <option value="Diabetes">Diabetes</option>
+              <option value="Obesity">Obesity</option>
+              <option value="Asthma">Asthma</option>
+              <!-- Note: Your original code had a duplicate closing </select> tag here. Removed for correctness. -->
+            </select>
+          </div>
+        
+        </div>
+
+        <!-- RIGHT CONTAINER: Lifestyle & Habits -->
+        <div class="right-container">
+            <h2>Lifestyle & Habits</h2>
+            
+          <div class="form-block"><label>Sleep Hours (per day)</label><input type="number" name="sleepHours" step="0.1" required></div>
+          <div class="form-block"><label>Alcohol Consumption</label>
+            <select name="alcohol" required>
+              <option value="">Select</option><option value="none">None</option>
+              <option value="occasional">Occasional</option><option value="frequent">Frequent</option>
+            </select>
+          </div>
+          <div class="form-block"><label>Smoking Habit</label>
+            <select name="smoking" required>
+              <option value="">Select</option><option value="non-smoker">Non-Smoker</option>
+              <option value="occasional">Occasional</option><option value="frequent">Frequent</option>
+            </select>
+          </div>
+          <div class="form-block"><label>Stress Eating</symmetrize></label>
+            <select name="stressEating" required>
+              <option value="">Select</option><option value="yes">Yes</option><option value="no">No</option>
+            </select>
+          </div>
+          <div class="form-block"><label>Dietary Habits</label>
+            <select name="dietaryHabits" required>
+              <option value="">Select</option><option value="balanced">Balanced</option>
+              <option value="high-fat">High Fat</option><option value="high-carb">High Carb</option>
+              <option value="low-protein">Low Protein</option>
+            </select>
+          </div>
+          <div class="form-block"><label>Sodium Sensitivity</label>
+            <select name="sodiumSensitivity" required>
+              <option value="">Select</option><option value="yes">Yes</option><option value="no">No</option>
+            </select>
+          </div>
+          <div class="form-block"><label>Sugar Sensitivity</label>
+            <select name="sugarSensitivity" required>
+              <option value="">Select</option><option value="yes">Yes</option><option value="no">No</option>
+            </select>
+          </div>
+          <button type="submit">Submit</button>
+        
+        </div>
+    </div>
+  </form>
+  </div>
+
+<!-- MODAL SECTION -->
+<div id="recommendationModal" class="modal" style="z-index: 99999; display: none;">
+    <div class="modal-content">
+        <span class="close-button">&times;</span> 
+        
+        <h2>Your Personalized Food Recommendations</h2>
+        
+        <div class="reco-item">
+            <p><strong>Breakfast:</strong> <span id="reco-breakfast"></span></p>
+        </div>
+        <div class="reco-item">
+            <p><strong>Lunch:</strong> <span id="reco-lunch"></span></p>
+        </div>
+        <div class="reco-item">
+            <p><strong>Dinner:</strong> <span id="reco-dinner"></span></p>
+        </div>
+        
+        <!-- *** FIX APPLIED HERE: ADDED ID FOR JAVASCRIPT TO UPDATE *** -->
+        <p id="statusMessage" style="margin-top: 15px; font-size: 0.9em; color: #555;">
+             Processing Status...
+        </p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. Get DOM Elements ---
+        const form = document.getElementById("userForm");
+        const modal = document.getElementById('recommendationModal');
+        const closeButton = document.querySelector('.close-button');
+        
+        // New Element reference for the status message
+        const statusMessageElement = document.getElementById('statusMessage'); 
+
+        // --- 2. Modal Close Handlers ---
+        // Close modal when the 'x' is clicked
+        if (closeButton) {
+            closeButton.onclick = () => {
+                modal.style.display = 'none';
+            };
+        }
+
+        // Close modal when user clicks outside of it
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // --- 3. Form Submission Handler (Replaced your alert() logic) ---
+        form.addEventListener("submit", async function(e){
+            e.preventDefault();
+            
+            // Collect form data and convert to a plain object
+            const formData = Object.fromEntries(new FormData(this));
+
+            try {
+                // Send data as JSON to the Flask endpoint
+                // FIX: Changing the relative path to an absolute path to prevent URL parsing errors
+                const response = await fetch("http://127.0.0.1:5000/submit", { 
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+
+                // --- UPDATE: Handle and Display Recommendations ---
+                if (result.recommendations) {
+                    const recos = result.recommendations;
+                    
+                    // Populate the modal with the data from the server
+                    document.getElementById('reco-breakfast').textContent = recos.Breakfast;
+                    document.getElementById('reco-lunch').textContent = recos.Lunch;
+                    document.getElementById('reco-dinner').textContent = recos.Dinner;
+                    
+                    // Display the status message returned from the server
+                    statusMessageElement.textContent = `${result.message} ${result.save_status}`;
+
+                    // Show the custom pop-up (modal)
+                    modal.style.display = 'block';
+                } else {
+                    // Fallback alert if recommendations key is missing
+                    statusMessageElement.textContent = result.message || 'Data saved, but recommendations could not be found.';
+                    modal.style.display = 'block';
+                }
+                // --- END NEW LOGIC ---
+                
+            } catch (error) {
+                console.error('Submission Error:', error);
+                // Update status message with error details
+                statusMessageElement.textContent = 'A network or server error occurred. Check the Flask console for details.';
+                modal.style.display = 'block'; // Show the modal with the error message
+            }
+        });
+    });
+</script>
+</body>
+</html>
